@@ -17,8 +17,8 @@ namespace ZCE\WebFeatures;
  */
 class SOAP
 {
-    static $URL_SOCCER      = 'http://footballpool.dataaccess.eu/data/info.wso?WSDL';
-    static $URL_COUNTRIES   = 'http://www.mobilefish.com/services/web_service/countries.php?wsdl';
+    static $URL_SOCCER      = 'https://footballpool.dataaccess.eu/data/info.wso?WSDL';
+    static $URL_COUNTRIES   = 'https://renoirboulanger.com/t.php';
     private $client         = array();
     private $countries      = array();
 
@@ -30,9 +30,29 @@ class SOAP
 
     public function GetAllCountries()
     {
-        $this->client['countries'] = new \SoapClient(self::$URL_COUNTRIES);
-        $result = $this->client['countries']->getIANAInfo();
-        foreach($result as $key => $value)
+        /*
+         * Creating a local webservice
+         *   - use local development webserver from php 5.4
+         *   - finish CountriesWebservice
+         *
+        $config = array(
+            'location'=>self::$URL_COUNTRIES,
+            'uri'=> self::$URL_COUNTRIES,
+            'trace'=>1,
+            'exceptions' => true,
+            'cache_wsdl' => WSDL_CACHE_NONE,
+            'features' => SOAP_SINGLE_ELEMENT_ARRAYS
+        );
+        $client = new \SoapClient(null,$config);
+        $result = $client->getCountryCodes();
+        */
+        $result = array(
+            array('pt','Portugal'),
+            array('br','Brasil'),
+            array('mx','Mexico'),
+            array('es','Spain')
+        );
+        foreach($result as $value)
         {
             $this->countries[$value[0]] = $value[1];
         }
@@ -45,18 +65,19 @@ class SOAP
 
         if(!is_null($ianaCode) && array_key_exists($ianaCode, $this->countries))
         {
-            return $this->client['countries']->countryInfoByIana($ianaCode);
+            return $this->countries[$ianaCode];
         }
         else
         {
-            print_r("This '".$ianaCode."' is not a valid ianacode.\n");
+            return sprintf('The country %s is either not a valid IANA code, nor available in our records at the moment', $ianaCode);
         }
     }
 }
 
 $client = new SOAP();
-$client->GetPortugalGoalkeepersName();
+//$client->GetPortugalGoalkeepersName();
 $client->GetAllCountries();
 print_r($client->GetCountryInfo('pt'));
-print_r($client->GetCountryInfo('en'));
-print_r($client->GetCountryInfo('uk'));
+//print_r($client->GetCountryInfo('en'));
+//print_r($client->GetCountryInfo('uk'));
+

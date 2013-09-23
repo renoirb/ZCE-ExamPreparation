@@ -21,6 +21,7 @@ class Strings
     static $THREE   = 'Portugal';
     static $FOUR    = 'Lisbon';
     static $FIVE    = "hello";
+    static $SIX     = 'Ballot';
     static $EMAIL   = 'hello@hello.com';
     static $ARRAY_STRING = array(
         '@'    => ' at ',
@@ -34,6 +35,7 @@ class Strings
  *************************************
  */
 // strcmp function - case-sensitive
+echo PHP_EOL.'Using strcmp function - case-sensitive'.PHP_EOL;
 print_r(strcmp(Strings::$ONE, Strings::$FIVE)."\n");    // 'hello' vs "hello" = 0
 print_r(strcmp(Strings::$THREE, Strings::$FOUR)."\n");  // 'Portugal' vs 'Lisbon' = 4
 print_r(strcmp(Strings::$TWO, Strings::$FIVE)."\n");    // 'Hello' vs "hello" = -32
@@ -48,9 +50,19 @@ print_r(strcmp('125', '25')."\n");                      // '125' vs '25' = -1
 print_r(strcmp('50', '125')."\n");                      // '50' vs '125' = 4
 
 // strcmp function - case-insensitive
+echo PHP_EOL.'Using strcmp function - case-insensitive'.PHP_EOL;
 print_r(strcasecmp(Strings::$ONE, Strings::$TWO)."\n");     // 'hello' vs 'Hello' = 0
 
+// similar_text
+echo PHP_EOL.'Using similar_text'.PHP_EOL;
+print_r(similar_text(Strings::$ONE, Strings::$FIVE)."\n");    // 'hello' vs "hello" = 5
+
+// levenshtein
+echo PHP_EOL.'Using levenshtein'.PHP_EOL;
+print_r(similar_text(Strings::$FIVE, Strings::$SIX)."\n");    // "hello" vs 'Ballot' = 3 (llo)
+
 // Comparison Operators
+echo PHP_EOL.'Comparison Operators'.PHP_EOL;
 print_r((Strings::$ONE == Strings::$FIVE) ? "1\n" : "0\n");
 print_r((Strings::$ONE === Strings::$FIVE) ? "1\n" : "0\n");
 print_r((Strings::$ONE === Strings::$TWO) ? "1\n" : "0\n");
@@ -58,10 +70,12 @@ print_r((Strings::$ONE == Strings::$TWO) ? "1\n" : "0\n");
 
 
 //String translate
+echo PHP_EOL.'String translate'.PHP_EOL;
 print_r(strtr(Strings::$EMAIL, Strings::$ARRAY_STRING)); // output: hello at hello dot com
 
 
 // nl2br
+echo PHP_EOL.'nl2br'.PHP_EOL;
 $str = nl2br("foo\nbar");
 echo $str.PHP_EOL;
 

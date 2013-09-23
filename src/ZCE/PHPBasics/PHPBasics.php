@@ -23,5 +23,3 @@ class PHPBasics
 }
 
 new PHPBasics();
-
-?>
